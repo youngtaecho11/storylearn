@@ -34,7 +34,7 @@ import axios from "axios";
 
 const HomeBottom = ({ quizs = [] }) => {
 
-    const [tempQuizs, setTempQuizs] = useState(defaultQuizs);
+    const [tempQuizs, setTempQuizs] = useState(quizs);
     const accordionRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
     // const [quizSet, setQuizSet] = useState([]);
@@ -67,7 +67,7 @@ const HomeBottom = ({ quizs = [] }) => {
 
         try {
             setIsLoading(true);
-            const response = await axios.post('http://0.0.0.0:5501/api/v1/quiz', resultArray);
+            const response = await axios.post('http://0.0.0.0:5501/api/v1/quiz/complete', {quiz_list: resultArray});
             console.log(response);
         } catch (error) {
             alert('Upload failed with error: ' + error.message);

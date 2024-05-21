@@ -105,13 +105,13 @@ const Home = () => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post('http://0.0.0.0:5501/api/v1/quiz', formData, {
+      const {data} = await axios.post('http://0.0.0.0:5501/api/v1/quiz', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      setQuizs([...response.data]);
+      setQuizs([...data]);
     } catch (error) {
       alert('Upload failed with error: ' + error.message);
     } finally {
