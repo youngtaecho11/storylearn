@@ -45,7 +45,7 @@ const Home = () => {
   const [selectedPlotFile, setSelectedPlotFile] = useState(null);
   const [selectedContentsFile, setSelectedContentsFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [quizs, setQuizs] = useState(defaultQuizs);
+  const [quizs, setQuizs] = useState([]);
 
   const handleChange = useCallback(value => {
     setContents(value);
@@ -114,6 +114,8 @@ const Home = () => {
       setQuizs([...data]);
     } catch (error) {
       alert('Upload failed with error: ' + error.message);
+      setQuizs(defaultQuizs);
+      navigate('/error');
     } finally {
       setIsLoading(false);
     }
@@ -125,7 +127,7 @@ const Home = () => {
       <Container>
         <HorizontalGap gap={'20px'}/>
         <TabWrapper>
-          <Tabs isFitted variant='enclosed' width={'35%'}>
+          <Tabs isFitted variant='enclosed' flex={1}>
             <Heading as='h3' size='lg'>
               세계관
             </Heading>
@@ -146,10 +148,10 @@ const Home = () => {
               </TabPanel>
             </TabPanels>
           </Tabs>
-          <IconWrapper>
+          <IconWrapper flex={1}>
             <img src={logo} alt="logo"/>
           </IconWrapper>
-          <Tabs isFitted variant='enclosed' width={'35%'} >
+          <Tabs isFitted variant='enclosed' flex={1}>
             <Heading as='h3' size='lg'>
               교육 자료
             </Heading>
@@ -185,8 +187,7 @@ const Home = () => {
           문제 만들기
         </Button>
       </Container>
-
-      <HomeBottom quizs={quizs}/>
+      {quizs?.length && <HomeBottom quizs={quizs}/>}
     </>
   );
 };

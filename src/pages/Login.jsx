@@ -48,15 +48,6 @@ const Login = () => {
                  value={name}
                  onChange={handleChange}
           />
-          {/*<Editable defaultValue='이름을 입력해주세요.' style={{*/}
-          {/*  'border': '1px dotted black',*/}
-          {/*  'borderRadius': '6px',*/}
-          {/*  'padding': '0 5px',*/}
-          {/*  'width': '80%',*/}
-          {/*}}>*/}
-          {/*  <EditablePreview />*/}
-          {/*  <EditableInput />*/}
-          {/*</Editable>*/}
           <VerticalGap gap={'10px'}/>
           <Button colorScheme='blue' onClick={handleConfirm}>
             로그인

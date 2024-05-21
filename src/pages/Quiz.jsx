@@ -79,9 +79,10 @@ const Quiz = () => {
                 const {data} = await axios.post('http://0.0.0.0:5501/api/v1/quiz/solve', {log_list: logs});
                 console.log(data);
                 navigate('/report');
-
+로
             } catch (error) {
                 alert('Get Data from log failed with error: ' + error.message);
+                navigate('/error');
             }
         })();
     },[isFinished, quizs]);
@@ -95,6 +96,7 @@ const Quiz = () => {
             <HorizontalGap gap={'50px'}/>
             <Box>{contentsTotal?.contents}</Box>
             <Flex flex={1}/>
+            <HorizontalGap gap={'50px'}/>
             <ButtonWrapper onClick={()=>handleClickAnswer('A')}>{contentsTotal?.contentsA}</ButtonWrapper>
             <ButtonWrapper onClick={()=>handleClickAnswer('B')}>{contentsTotal?.contentsB}</ButtonWrapper>
             <ButtonWrapper onClick={()=>handleClickAnswer('C')}>{contentsTotal?.contentsC}</ButtonWrapper>

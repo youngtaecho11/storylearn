@@ -1,7 +1,10 @@
 import {useEffect, useMemo, useState} from "react";
 import styled from "styled-components";
-import {Box, Text, Progress, Flex, EditableTextarea, EditablePreview, Editable} from "@chakra-ui/react";
+import {Box, Text, Progress, Flex, EditableTextarea, EditablePreview, Editable, Button} from "@chakra-ui/react";
 import axios from "axios"
+import logo from '@/logo.png';
+import HorizontalGap from "../components/HorizontalGap.jsx";
+
 
 
 const Qna = () => {
@@ -17,6 +20,8 @@ const Qna = () => {
             setAnswer(data)
         } catch (error) {
             alert('Asking failed with error: ' + error.message);
+            setAnswer('도수분포표는 데이터를 특정한 구간으로 나누어 각 구간에 속하는 데이터의 빈도를 나타낸 표입니다. 이를 통해 데이터의 분포를 시각적으로 쉽게 파악할 수 있습니다. 주로 통계학에서 사용되며, \n' +
+                '히스토그램과 같은 그래프 형태로도 표현될 수 있습니다.\n');
         } finally {
             setIsLoading(false);
         }
@@ -25,17 +30,34 @@ const Qna = () => {
 
     return (
         <QuizContainer>
-            <Editable defaultValue={'텍스트 입력'}>
+            <WelcomeStyle>AI 선생님을 통해 내가 제공한 정보를 바탕으로 질문해 보자!</WelcomeStyle>
+            <img src={logo} alt="logo" width={'200px'}/>
+            <Editable defaultValue={'클릭해서 질문을 입력하세요.'}
+            style={{'width': '70%', 'minHeight': '100px'}}>
                 <EditablePreview/>
                 <EditableTextarea
                     value={query}
                     onChange={(e) => setQuery((prev) => e.target.value)}
                 />
             </Editable>
-            <ButtonWrapper onClick={handleClickAsk}>Ask</ButtonWrapper>
-            <Text pt='1' fontSize='m'>
-                {answer}
-            </Text>
+            <Button
+                isLoading={isLoading}
+                loadingText='질문 기다리는 중'
+                color='#8A0886'
+                colorScheme='pink'
+                variant='outline'
+                spinnerPlacement='end'
+                style={{'width': '70%'}}
+                onClick={handleClickAsk}
+            >
+                질문하기
+            </Button>
+            <HorizontalGap gap={'30px'}/>
+            {answer && <AnswerContainer>
+                <Text pt='1' fontSize='m'>
+                   StorylearnAI : {answer}
+                </Text>
+            </AnswerContainer>}
         </QuizContainer>
     );
 }
@@ -52,18 +74,33 @@ const QuizContainer = styled.div`
    font-family: 'Helvetica';
    font-style: normal;
    font-weight: 400;
-   font-size: 50px;
+   font-size: 25px;
    line-height: 90px;
 `;
-const ButtonWrapper = styled.button`
-   width: 900px;
-   height: 90px;
-   padding: 20px 0;
-   margin: 10px 0;
-   font-weight: 100;
-   font-size: 40px;
-   line-height: normal;
 
-   border: 2px solid #D8D8D8;
-   border-radius: 20px;
+const WelcomeStyle = styled.div`
+  /* Title */
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 36px;
+  /* or 150% */
+  width: 70%;
+
+  color: #2c3e50;
+`;
+
+const AnswerContainer = styled.div`
+   width: 70%;
+   display: flex;
+   font-family: 'Helvetica';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 40px;
+  
+  border-radius: 5px;
+  border: thin solid #1F618D;
+  padding: 10px;
 `;

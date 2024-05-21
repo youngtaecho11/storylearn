@@ -31,6 +31,7 @@ import {
 import { Card, CardHeader, CardBody, CardFooter, Text } from '@chakra-ui/react';
 import HorizontalGap from "../../components/HorizontalGap.jsx";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const HomeBottom = ({ quizs }) => {
 
@@ -38,6 +39,8 @@ const HomeBottom = ({ quizs }) => {
     const accordionRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
     const [quizToRemove, setQuizToRemove] = useState([]);
+
+    const navigate=useNavigate();
 
     const handleCreateQuizSet = async () => {
 
@@ -70,12 +73,14 @@ const HomeBottom = ({ quizs }) => {
             setIsLoading(true);
             const response = await axios.post('http://0.0.0.0:5501/api/v1/quiz/complete', {quiz_list: arrayToSave});
             console.log(response);
+            alert("저장이 완료되었어요 !");
+            navigate("/solving");
         } catch (error) {
             alert('Upload failed with error: ' + error.message);
+            navigate('/error');
         } finally {
             setIsLoading(false);
         }
-        alert("저장이 완료되었어요 !");
     }
 
     const removeElementsByIndices = (array1, array2) => {
