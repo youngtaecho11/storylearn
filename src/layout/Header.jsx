@@ -33,7 +33,8 @@ const Header = () => {
     }, [navigate]);
 
     return (
-        <>
+        location?.pathname !== '/quiz' &&
+        (<>
             <Wrapper>
                 <LeftBox onClick={onOpen}>
                 <HamburgerIcon boxSize={30} color='#FFFFFF' ref={btnRef} />
@@ -107,7 +108,7 @@ const Header = () => {
                 </DrawerContent>
             </Drawer>
         </>
-    );
+    ));
 };
 
 export default Header;

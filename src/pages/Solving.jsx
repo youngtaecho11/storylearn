@@ -5,9 +5,15 @@ import {defaultQuizSet} from "../const/const.js";
 import HorizontalGap from "../components/HorizontalGap.jsx";
 import {parseStringToObject} from "../utils/dateUtils.js";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const Solving = () => {
     const [quizSetList, setQuizSetList] = useState(defaultQuizSet);
+    const navigate = useNavigate();
+
+    const handleClick = (id) => {
+        navigate('/quiz', {state: {id} });
+    }
 
     useEffect(()=>{
         (async ()=>{
@@ -71,9 +77,14 @@ const Solving = () => {
                                 </Text>
                             </CardBody>
                             <CardFooter width='100%'>
-                                <Button width='100%' bg={'#CED8F6'} style={{
+                                <Button
+                                    width='100%'
+                                    bg={'#CED8F6'}
+                                    style={{
                                     'height': '100px'
-                                }}>
+                                }}
+                                    onClick={()=>handleClick(item?.id)}
+                                >
                                     <Text style={{'fontSize': '30px'}}>
                                     풀어보기
                                     </Text>

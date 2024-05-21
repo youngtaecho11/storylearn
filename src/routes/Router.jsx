@@ -6,6 +6,7 @@ import Header from '../layout/Header.jsx';
 import styled from 'styled-components';
 import Signup from '../pages/Signup.jsx';
 import Solving from "../pages/Solving.jsx";
+import Quiz from "../pages/Quiz.jsx";
 
 const Router = () => {
     return (
@@ -15,6 +16,7 @@ const Router = () => {
                 <Routes>
                     <Route exact path="/" element={sessionStorage ? <Home /> : <Navigate replace to="/login" />} />
                     <Route path="/solving" element={<Solving />} />
+                    <Route path="/quiz" element={<Quiz />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="*" element={<Error />} />
