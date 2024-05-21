@@ -105,7 +105,7 @@ const Home = () => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post('http://localhost:8080', formData, {
+      const response = await axios.post('http://0.0.0.0:5501/api/v1/quiz', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
