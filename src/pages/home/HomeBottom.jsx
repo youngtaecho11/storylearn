@@ -20,7 +20,7 @@ import {
     IconButton,
     useToast
 } from '@chakra-ui/react'
-import {quizs as defaultQuizs} from "../../const/const.js";
+import {defaultQuizs} from "../../const/const.js";
 import {
     Accordion,
     AccordionItem,
@@ -32,12 +32,12 @@ import { Card, CardHeader, CardBody, CardFooter, Text } from '@chakra-ui/react';
 import HorizontalGap from "../../components/HorizontalGap.jsx";
 import axios from "axios";
 
-const HomeBottom = ({ quizs = [] }) => {
+const HomeBottom = ({ quizs }) => {
 
     const [tempQuizs, setTempQuizs] = useState(quizs);
     const accordionRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
-    // const [quizSet, setQuizSet] = useState([]);
+    const [quizToRemove, setQuizToRemove] = useState([]);
 
     const handleCreateQuizSet = async () => {
 
@@ -63,11 +63,12 @@ const HomeBottom = ({ quizs = [] }) => {
             };
             resultArray.push(group);
         }
-        console.log(resultArray);
+        const arrayToSave = removeElementsByIndices(resultArray, quizToRemove);
+        console.log(arrayToSave);
 
         try {
             setIsLoading(true);
-            const response = await axios.post('http://0.0.0.0:5501/api/v1/quiz/complete', {quiz_list: resultArray});
+            const response = await axios.post('http://0.0.0.0:5501/api/v1/quiz/complete', {quiz_list: arrayToSave});
             console.log(response);
         } catch (error) {
             alert('Upload failed with error: ' + error.message);
@@ -77,12 +78,27 @@ const HomeBottom = ({ quizs = [] }) => {
         alert("저장이 완료되었어요 !");
     }
 
+    const removeElementsByIndices = (array1, array2) => {
+        array2.sort((a, b) => a - b);
+
+        let resultArray = [...array1];
+
+        for (let i = array2.length - 1; i >= 0; i--) {
+            const index = array2[i];
+            if (index >= 0 && index < resultArray.length) {
+                resultArray.splice(index, 1);
+            }
+        }
+        return resultArray;
+    };
+
     const removeQuizAtIndex = (index) => {
-        console.log(index);
-        setTempQuizs(prevItems => {
-            const newItems = [...prevItems];
-            newItems.splice(index, 1);
-            return newItems;
+        setQuizToRemove(prevItems => {
+            if (prevItems.includes(index)) {
+                return prevItems.filter(i => i !== index);
+            } else {
+                return [...prevItems, index];
+            }
         });
     };
 
@@ -100,7 +116,7 @@ const HomeBottom = ({ quizs = [] }) => {
           <Wrapper>
               <Accordion allowToggle width={'100%'} ref={accordionRef}>
                   {tempQuizs?.map( (item, index) => (
-                  <AccordionItem key={'accodian_'+ index}>
+                  <AccordionItem key={`accordion_item_${index}`} id={`accordion_item_${index}`} expanded>
                       <h2>
                           <AccordionButton bg='white' _expanded={{ bg: 'purple', color: 'white' }}>
                               <Box as='span' flex='1' textAlign='left'>
@@ -110,13 +126,15 @@ const HomeBottom = ({ quizs = [] }) => {
                           </AccordionButton>
                       </h2>
                       <AccordionPanel pb={4}>
-                          <Card width={'100%'}>
-                              <CardHeader>
+                          <Card width={'100%'} key={`card_item_${index}`} id={`card_item_${index}`}
+                                bg={quizToRemove?.includes(index)? '#424242': 'white'}
+                          >
+                              <CardHeader key={`card_header_${index}`} id={`card_header_${index}`}>
                                   <Flex spacing='4'>
                                       <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
                                           <Box>
                                               <Heading size='md'>
-                                                  <Editable defaultValue={item?.problem}>
+                                                  <Editable defaultValue={item?.problem} key={`card_problem_${index}`} id={`card_problem_${index}`}>
                                                       <EditablePreview minWidth={'900px'}/>
                                                       <EditableTextarea minWidth={'900px'} label={'problem'}/>
                                                   </Editable>
@@ -125,10 +143,10 @@ const HomeBottom = ({ quizs = [] }) => {
                                       </Flex>
                                   </Flex>
                               </CardHeader>
-                              <CardBody>
+                              <CardBody key={`card_body_${index}`} id={`card_body_${index}`}>
                                   <Text>
                                       답 :
-                                      <Editable defaultValue={item?.answer}>
+                                      <Editable defaultValue={item?.answer} key={`card_answer_${index}`} id={`card_answer_${index}`}>
                                           <EditablePreview minWidth={'900px'}/>
                                           <EditableTextarea minWidth={'900px'} label={'answer'}/>
                                       </Editable>
@@ -136,7 +154,7 @@ const HomeBottom = ({ quizs = [] }) => {
                                   <HorizontalGap gap={'5px'}/>
                                   <Text>
                                       해설 :
-                                      <Editable defaultValue={item?.explanation}>
+                                      <Editable defaultValue={item?.explanation} key={`card_explanation_${index}`} id={`card_explanation_${index}`}>
                                           <EditablePreview minWidth={'900px'}/>
                                           <EditableTextarea minWidth={'900px'} label={'explanation'}/>
                                       </Editable>
@@ -162,17 +180,36 @@ const HomeBottom = ({ quizs = [] }) => {
                                       {item?.difficulty}
                                   </Button>
                               </CardFooter>
-                              <Button
-                                  color='red'
-                                  colorScheme='red'
-                                  variant='outline'
-                                  spinnerPlacement='end'
-                                  onClick={()=>removeQuizAtIndex(index)}
-                                  bg={'white'}
-                                  width={'100%'}
-                              >
-                                  해당 문제 삭제하기
-                              </Button>
+                              {
+                                  quizToRemove?.includes(index) ?
+                                      <>
+                                          <Button
+                                              color='#424242'
+                                              colorScheme='#424242'
+                                              variant='outline'
+                                              spinnerPlacement='end'
+                                              onClick={()=>removeQuizAtIndex(index)}
+                                              bg={'white'}
+                                              width={'100%'}
+                                          >
+                                              해당 문제 제외 취소
+                                          </Button>
+                                      </>
+                                      :
+                                      <>
+                                          <Button
+                                          color='white'
+                                          colorScheme='white'
+                                          variant='outline'
+                                          spinnerPlacement='end'
+                                          onClick={()=>removeQuizAtIndex(index)}
+                                          bg={'#424242'}
+                                          width={'100%'}
+                                      >
+                                          해당 문제 제외하기
+                                      </Button></>
+                              }
+
                           </Card>
                       </AccordionPanel>
                   </AccordionItem>

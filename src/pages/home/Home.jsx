@@ -27,6 +27,7 @@ import {
 } from '@chakra-ui/react'
 import CustomAlert from "../../components/CustomAlert.jsx";
 import axios from 'axios';
+import {defaultQuizs} from "../../const/const.js";
 
 
 
@@ -44,7 +45,7 @@ const Home = () => {
   const [selectedPlotFile, setSelectedPlotFile] = useState(null);
   const [selectedContentsFile, setSelectedContentsFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [quizs, setQuizs] = useState([]);
+  const [quizs, setQuizs] = useState(defaultQuizs);
 
   const handleChange = useCallback(value => {
     setContents(value);
