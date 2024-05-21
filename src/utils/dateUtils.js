@@ -26,6 +26,10 @@ export const getGreetingMessage = () => {
 
 export const parseStringToObject = (str) => {
 
+  if(str === null || str === undefined || str === "" ){
+    return "";
+  }
+
   // 문자열을 언더스코어와 공백을 기준으로 쪼갬
   const [subject, datetime] = str.split('_');
   // 날짜와 시간을 분리

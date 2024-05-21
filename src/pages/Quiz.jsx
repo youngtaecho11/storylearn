@@ -32,7 +32,7 @@ const Quiz = () => {
         }
         (async ()=>{
             try {
-                const {data} = await axios.get('http://0.0.0.0:5501/api/v1/quiz/all/' + id);
+                const {data} = await axios.get('http://0.0.0.0:5501/api/v1/workbook/' + id);
                 console.log(data);
                 setQuizs([...data]);
             } catch (error) {

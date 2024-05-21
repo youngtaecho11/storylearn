@@ -18,7 +18,7 @@ const Solving = () => {
     useEffect(()=>{
         (async ()=>{
             try {
-                const {data} = await axios.get('http://0.0.0.0:5501/api/v1/quiz/all');
+                const {data} = await axios.get('http://0.0.0.0:5501/api/v1/workbook/all');
                 console.log(data);
                 setQuizSetList([...data]);
             } catch (error) {
@@ -105,5 +105,6 @@ const Container = styled.div`
   justify-content: flex-start;
   padding: 72px 60px;
   overflow: hidden;
+  min-height: 1366px;
   background-color: #E6E6E6;
 `;
