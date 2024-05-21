@@ -9,6 +9,8 @@ import useTimer from "../hooks/useTimer.js";
 import axios from "axios";
 
 const checkCorrectness = (realAnswer, studentAnswer) => {
+    console.log(realAnswer, 'realAnswer');
+    console.log(studentAnswer, 'studentAnswer');
     if(realAnswer === studentAnswer){
         return 'Y'
     } else if(realAnswer !== studentAnswer){
@@ -19,20 +21,28 @@ const checkCorrectness = (realAnswer, studentAnswer) => {
 const Quiz = () => {
     const [quizs, setQuizs] = useState(defaultQuizs);
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+    const [isChecking, setIsChecking] = useState('Unknown');
     const [isFinished, setIsFinished] = useState(false);
 
     const { state } = useLocation();
     const { id } = state || '';
-    const { timeArray, resetTimer } = useTimer();
+    const { timeArray, resetTimer, resetTimerAndInsert } = useTimer();
     const [answerArray, setAnswerArray] = useState([]);
+    const [correctnessArray, setCorrectnessArray] = useState([]);
     const navigate =useNavigate();
 
     const contentsTotal = useMemo(()=> getABCDE(quizs[currentQuizIndex]?.problem)
         ,[quizs, currentQuizIndex]);
 
-    const handleClickAnswer = (answer) => {
+    const handleClickAnswer = async (idx, answer) => {
         setAnswerArray(prev=>[...prev, answer]);
-        resetTimer();
+        const correctness = checkCorrectness(quizs[idx]?.answer, answer);
+        setIsChecking(correctness);
+        await resetTimerAndInsert();
+        await new Promise(resolve => setTimeout(resolve, 4000));
+
+        setCorrectnessArray(prev=>[...prev, correctness]);
+        await setIsChecking('Unknown');
         setCurrentQuizIndex(prev => {
             if(prev+1 < quizs.length){
                 return prev+1;
@@ -42,6 +52,7 @@ const Quiz = () => {
                 return prev;
             }
         });
+        await resetTimer();
     }
 
     useEffect(()=>{
@@ -71,7 +82,7 @@ const Quiz = () => {
                         'subject': item?.subject,
                         'type': item?.type,
                         'difficulty': item?.difficulty,
-                        'correctness': checkCorrectness(item?.answer, answerArray[index]),
+                        'correctness': correctnessArray[index],
                         'timestamp': timeArray[index]
                     }
                 })
@@ -97,11 +108,26 @@ const Quiz = () => {
             <Box>{contentsTotal?.contents}</Box>
             <Flex flex={1}/>
             <HorizontalGap gap={'50px'}/>
-            <ButtonWrapper onClick={()=>handleClickAnswer('A')}>{contentsTotal?.contentsA}</ButtonWrapper>
-            <ButtonWrapper onClick={()=>handleClickAnswer('B')}>{contentsTotal?.contentsB}</ButtonWrapper>
-            <ButtonWrapper onClick={()=>handleClickAnswer('C')}>{contentsTotal?.contentsC}</ButtonWrapper>
-            <ButtonWrapper onClick={()=>handleClickAnswer('D')}>{contentsTotal?.contentsD}</ButtonWrapper>
-            <ButtonWrapper onClick={()=>handleClickAnswer('E')}>{contentsTotal?.contentsE}</ButtonWrapper>
+            <ButtonWrapper
+                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'A'}
+                isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'A'}
+                onClick={()=>handleClickAnswer(currentQuizIndex, 'A')}>{contentsTotal?.contentsA}</ButtonWrapper>
+            <ButtonWrapper
+                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'B'}
+                isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'B'}
+                onClick={()=>handleClickAnswer(currentQuizIndex, 'B')}>{contentsTotal?.contentsB}</ButtonWrapper>
+            <ButtonWrapper
+                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'C'}
+                isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'C'}
+                onClick={()=>handleClickAnswer(currentQuizIndex, 'C')}>{contentsTotal?.contentsC}</ButtonWrapper>
+            <ButtonWrapper
+                onClick={()=>handleClickAnswer(currentQuizIndex, 'D')}
+                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'D'}
+                isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'D'}>{contentsTotal?.contentsD}</ButtonWrapper>
+            <ButtonWrapper
+                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'E'}
+                isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'E'}
+                onClick={()=>handleClickAnswer(currentQuizIndex, 'E')}>{contentsTotal?.contentsE}</ButtonWrapper>
         </QuizContainer>
     );
 }
@@ -118,7 +144,7 @@ const QuizContainer = styled.div`
   font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
-  font-size: 50px;
+  font-size: 40px;
   line-height: 90px;
 
 `;
@@ -135,4 +161,14 @@ const ButtonWrapper = styled.button`
   
   border: 2px solid #D8D8D8;
   border-radius: 20px;
+  background-color: ${({ isGreen, isRed }) => {
+    if (isGreen) return '#2ECC71';
+    if (isRed) return '#F93910';
+    return 'white';
+  }};
+  color: ${({ isGreen, isRed }) => {
+    if (isGreen) return 'white';
+    if (isRed) return 'white';
+    return 'black';
+  }};
 `;

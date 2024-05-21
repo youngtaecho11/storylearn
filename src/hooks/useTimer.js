@@ -13,8 +13,14 @@ const useTimer = () => {
 
     const resetTimer = () => {
         setTime(0);
+    };
+
+    const resetTimerAndInsert = () => {
+        console.log(time, 'time');
+        setTime(0);
         setTimeArray(prevArray => [...prevArray, time]);
     };
-    return { time, timeArray, resetTimer };
+
+    return { time, timeArray, resetTimer, resetTimerAndInsert };
 };
 export default useTimer;
