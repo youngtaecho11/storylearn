@@ -1,0 +1,64 @@
+.Dropdown-root {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    gap: 34px;
+
+    background: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+
+    width: 120px;
+}
+
+.Dropdown-control {
+    width: 100%;
+    border: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.Dropdown-menu {
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    margin-top: -1px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    -webkit-overflow-scrolling: touch;
+}
+
+.Dropdown-option {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+
+    color: #000000;
+}
+
+
+.Dropdown-option.is-selected {
+    background-color: #2A82F01A;
+    color: #2A82F0;
+}
+
+.Dropdown-arrow-wrapper {
+    position: absolute;
+    right: 25px;
+    width: 0
+}

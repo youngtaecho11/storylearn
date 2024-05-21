@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url("./fonts/Roboto-Regular.ttf") format('truetype');
+}
+body {
+    font-family: 'Roboto', sans-serif; /* Roboto 폰트를 전역으로 설정 */
+}
