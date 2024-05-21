@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ArrowUpIcon from '@/ic_arrow_up.svg?react';
 import ArrowDownIcon from '@/ic_arrow_down.svg?react';
-import { useCallback, useEffect } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import { deleteTask, patchTask } from '../../services/tasks.js';
 import TaskItem from '../../components/TaskItem.jsx';
 import { toLocaleDate } from '../../utils/dateUtils.js';
@@ -9,86 +9,139 @@ import PropTypes from 'prop-types';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import '../../../public/fonts/dropdown.css';
-import { useToast } from '@chakra-ui/react'
-import { deleteAllTasksByMemberId } from '../../services/members.js';
-import logo from '@/logo.png';
+import {
+    Box,
+    Button,
+    Editable,
+    EditablePreview,
+    EditableTextarea,
+    Flex,
+    Heading,
+    IconButton,
+    useToast
+} from '@chakra-ui/react'
+import {quizs as defaultQuizs} from "../../components/const.js";
+import {
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
+} from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Text } from '@chakra-ui/react';
+import HorizontalGap from "../../components/HorizontalGap.jsx";
 
-const options = [
-  { label: 'Oldest', value: 'OLDEST' },
-  { label: 'Latest', value: 'LATEST' },
-];
-const defaultOption = options[0];
+const HomeBottom = ({ quizs = [] }) => {
 
-const HomeBottom = ({ tasks, fetchTasks, handleChangeDropdown, memberId }) => {
-  const { fireToast } = useToast();
+    const [tempQuizs, setTempQuizs] = useState(defaultQuizs);
 
-  const onClickCheckbox = useCallback(
-    async task => {
-      await patchTask(task?.id, { contents: task?.contents, isDone: !task?.isDone });
-      if (task?.isDone !== true) {
-        fireToast({ content: 'Task has been completed' });
-      }
-      await fetchTasks();
-    },
-    [fetchTasks, fireToast],
-  );
-
-  const onClickDeleteIcon = useCallback(
-    async id => {
-      await deleteTask(id);
-      fireToast({ content: 'Task has been deleted' });
-      await fetchTasks();
-    },
-    [fetchTasks, fireToast],
-  );
-
-  const onClickAllDelete = useCallback(async () => {
-    if (confirm('전체 삭제하시겠습니까?')) {
-      await deleteAllTasksByMemberId(memberId);
-      fireToast({ content: 'All tasks have been deleted' });
-      await fetchTasks();
-    }
-  }, [fetchTasks, fireToast, memberId]);
-
-  useEffect(() => {
-    (async () => await fetchTasks())();
-  }, [fetchTasks]);
+    useEffect(()=>{
+        if(!quizs.length) {
+            return;
+        }
+        setTempQuizs(quizs);
+    }, [quizs]);
 
   return (
     <Container>
-      {tasks?.length ? (
+      {tempQuizs?.length !== 0 ? (
         <>
           <Wrapper>
-            <DropdownWrapper>
-              <Dropdown
-                options={options}
-                onChange={event => handleChangeDropdown(event.value)}
-                value={defaultOption}
-                arrowClosed={<ArrowDownIcon />}
-                arrowOpen={<ArrowUpIcon />}
-              />
-              <BtnStyle onClick={onClickAllDelete}> clear all </BtnStyle>
-            </DropdownWrapper>
-            {tasks?.map(task => (
-              <TaskItem
-                key={task?.id}
-                id={task?.id}
-                contents={task?.contents}
-                isDone={task?.isDone}
-                createdDate={toLocaleDate(task?.createdDate)}
-                modifiedDate={toLocaleDate(task?.modifiedDate)}
-                onChange={() => onClickCheckbox(task)}
-                onDelete={() => onClickDeleteIcon(task?.id)}
-                fetchTasks={fetchTasks}
-              />
-            ))}
+              <Accordion allowToggle width={'100%'}>
+                  {tempQuizs?.map( (item, index) => (
+                  <AccordionItem key={'accodian_'+ index}>
+                      <h2>
+                          <AccordionButton bg='white' _expanded={{ bg: 'purple', color: 'white' }}>
+                              <Box as='span' flex='1' textAlign='left'>
+                                  {index + 1}번 문제 - [{item?.subject}] - [{item?.type}] - [{item?.difficulty}]
+                              </Box>
+                              <AccordionIcon />
+                          </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4}>
+                          <Card width={'100%'}>
+                              <CardHeader>
+                                  <Flex spacing='4'>
+                                      <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                                          <Box>
+                                              <Heading size='md'>
+                                                  <Editable defaultValue={item?.problem}>
+                                                      <EditablePreview minWidth={'900px'}/>
+                                                      <EditableTextarea minWidth={'900px'}/>
+                                                  </Editable>
+                                              </Heading>
+                                          </Box>
+                                      </Flex>
+                                  </Flex>
+                              </CardHeader>
+                              <CardBody>
+                                  <Text>
+                                      답 :
+                                      <Editable defaultValue={item?.answer}>
+                                          <EditablePreview minWidth={'900px'}/>
+                                          <EditableTextarea minWidth={'900px'}/>
+                                      </Editable>
+                                  </Text>
+                                  <HorizontalGap gap={'5px'}/>
+                                  <Text>
+                                      해설 :
+                                      <Editable defaultValue={item?.explanation}>
+                                          <EditablePreview minWidth={'900px'}/>
+                                          <EditableTextarea minWidth={'900px'}/>
+                                      </Editable>
+                                  </Text>
+                              </CardBody>
+                              {/*<Image*/}
+                              {/*    objectFit='cover'*/}
+                              {/*    src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'*/}
+                              {/*    alt='Chakra UI'*/}
+                              {/*/>*/}
+
+                              <CardFooter
+                                  justify='space-between'
+                                  flexWrap='wrap'
+                                  sx={{
+                                      '& > button': {
+                                          minW: '136px',
+                                      },
+                                  }}
+                              >
+                                  <Button flex='1' variant='ghost' disabled>
+                                      {item?.subject}
+                                  </Button>
+                                  <Button flex='1' variant='ghost' disabled>
+                                      {item?.type}
+                                  </Button>
+                                  <Button flex='1' variant='ghost' disabled>
+                                      {item?.difficulty}
+                                  </Button>
+                              </CardFooter>
+                          </Card>
+                      </AccordionPanel>
+                  </AccordionItem>
+                  ))}
+              </Accordion>
+            {/*  */}
+            {/*{tasks?.map(task => (*/}
+            {/*  <TaskItem*/}
+            {/*    key={task?.id}*/}
+            {/*    id={task?.id}*/}
+            {/*    contents={task?.contents}*/}
+            {/*    isDone={task?.isDone}*/}
+            {/*    createdDate={toLocaleDate(task?.createdDate)}*/}
+            {/*    modifiedDate={toLocaleDate(task?.modifiedDate)}*/}
+            {/*    onChange={() => onClickCheckbox(task)}*/}
+            {/*    onDelete={() => onClickDeleteIcon(task?.id)}*/}
+            {/*    fetchTasks={fetchTasks}*/}
+            {/*  />*/}
+            {/*))}*/}
           </Wrapper>
         </>
       ) : (
         <>
-          <IconWrapper>
-              <img src={logo} alt="logo"/>
-          </IconWrapper>
+          {/*<IconWrapper>*/}
+          {/*    <img src={logo} alt="logo"/>*/}
+          {/*</IconWrapper>*/}
         </>
       )}
     </Container>
@@ -98,10 +151,7 @@ const HomeBottom = ({ tasks, fetchTasks, handleChangeDropdown, memberId }) => {
 export default HomeBottom;
 
 HomeBottom.propTypes = {
-  tasks: PropTypes.array,
-  fetchTasks: PropTypes.func,
-  handleChangeDropdown: PropTypes.func,
-  memberId: PropTypes.string,
+    quizs: PropTypes.array
 };
 
 const Container = styled.div`
@@ -111,6 +161,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
+  width: 100%;
   padding: 24px 60px;
   display: flex;
   flex-direction: column;

@@ -76,6 +76,7 @@ const FileUpload = ({selectedFile, setSelectedFile}) => {
                     borderRadius: '5px',
                     textAlign: 'center',
                     cursor: 'pointer',
+                    minHeight: '65px',
                 }}
             >
                 <input
@@ -94,9 +95,6 @@ const FileUpload = ({selectedFile, setSelectedFile}) => {
                     <p>파일을 끌어다 놓거나 클릭하세요.</p>
                 )}
             </div>
-            {/*<button onClick={handleUpload} disabled={!selectedFile}>*/}
-            {/*    Upload*/}
-            {/*</button>*/}
             {uploadStatus && <p>{uploadStatus}</p>}
         </div>
     );

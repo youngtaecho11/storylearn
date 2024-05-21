@@ -1,7 +1,8 @@
 @font-face {
-    font-family: 'Roboto';
-    src: url("./fonts/Roboto-Regular.ttf") format('truetype');
+    font-family: 'Helvetica';
+    font-weight: normal;
+    src: url("./fonts/Helvetica.ttf") format('truetype');
 }
 body {
-    font-family: 'Roboto', sans-serif; /* Roboto 폰트를 전역으로 설정 */
+    font-family: 'Helvetica';
 }

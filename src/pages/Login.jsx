@@ -2,51 +2,66 @@ import {
   Editable,
   EditableInput,
   EditableTextarea,
-  EditablePreview,
+  EditablePreview, Flex, Button, Input,
 } from '@chakra-ui/react'
 import styled from 'styled-components';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getMemberByEmail } from '../services/members.js';
-import { validateEmail } from '../utils/regexUtils.js';
-import { useToast } from '@chakra-ui/react'
 import logo from '@/logo.png';
+import HorizontalGap from "../components/HorizontalGap.jsx";
+import VerticalGap from "../components/VerticalGap.jsx";
 
 const Login = () => {
-  const [email, setEmail] = useState();
+  // const [email, setEmail] = useState();
+  const [name, setName] = useState('');
   const navigate = useNavigate();
-  const { fireToast } = useToast();
 
-  const handleChange = useCallback(value => {
-    setEmail(value);
+  const handleChange = useCallback(event => {
+    // setEmail(value);
+    setName(event.target.value);
   }, []);
 
   const handleConfirm = useCallback(async () => {
-    if (validateEmail(email)) {
-      return;
-    }
+    // if (validateEmail(email)) {
+    //   return;
+    // }
     try {
-      const result = await getMemberByEmail(email);
-      sessionStorage.setItem('id', result?.data?.id);
-      sessionStorage.setItem('email', result?.data?.email);
-      sessionStorage.setItem('name', result?.data?.userName ?? 'Anonymous');
+      // const result = await getMemberByEmail(email);
+      // sessionStorage.setItem('id', result?.data?.id);
+      // sessionStorage.setItem('email', result?.data?.email);
+      sessionStorage.setItem('name', name ?? 'Anonymous');
       navigate('/');
     } catch (error) {
-      fireToast({ content: 'Not registered user.' });
       console.log(error);
     }
-  }, [email, fireToast, navigate]);
+  }, [name, navigate]);
 
   return (
     <>
       <Container>
         <img src={logo} alt="logo" width={'500px'}/>
-        <WelcomeStyle>환영합니다. </WelcomeStyle>
-        <TitleStyle>로그인하세요.</TitleStyle>
-        <Editable defaultValue='Take some chakra'>
-          <EditablePreview />
-          <EditableInput />
-        </Editable>
+        <WelcomeStyle>AI 선생님을 통해 <br/>초개인화 맞춤형 문제를 만들고 풀어 보자!</WelcomeStyle>
+        <HorizontalGap gap={'80px'}/>
+        <Flex flex={1} width ='50%'>
+          <Input placeholder='이름을 입력해주세요.'
+                 size='md'
+                 value={name}
+                 onChange={handleChange}
+          />
+          {/*<Editable defaultValue='이름을 입력해주세요.' style={{*/}
+          {/*  'border': '1px dotted black',*/}
+          {/*  'borderRadius': '6px',*/}
+          {/*  'padding': '0 5px',*/}
+          {/*  'width': '80%',*/}
+          {/*}}>*/}
+          {/*  <EditablePreview />*/}
+          {/*  <EditableInput />*/}
+          {/*</Editable>*/}
+          <VerticalGap gap={'10px'}/>
+          <Button colorScheme='blue' onClick={handleConfirm}>
+            로그인
+          </Button>
+        </Flex>
       </Container>
     </>
   );
@@ -63,7 +78,7 @@ const Container = styled.div`
 
 const WelcomeStyle = styled.div`
   /* Title */
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -71,17 +86,4 @@ const WelcomeStyle = styled.div`
   /* or 150% */
 
   color: #2c3e50;
-`;
-
-const TitleStyle = styled.div`
-  /* Title */
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 72px;
-  /* identical to box height, or 150% */
-
-  color: #2c3e50;
-  padding: 24px 0 16px 0;
 `;

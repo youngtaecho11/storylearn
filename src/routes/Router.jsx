@@ -12,7 +12,7 @@ const Router = () => {
             <BrowserRouter>
                 <Header />
                 <Routes>
-                    <Route exact path="/" element={sessionStorage ? <Home /> : <Navigate replace to="/login" />} />
+                    <Route exact path="/" pathname='asd' element={sessionStorage ? <Home /> : <Navigate replace to="/login" />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="*" element={<Error />} />

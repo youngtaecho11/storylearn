@@ -108,7 +108,7 @@ const LeftBox = styled.div`
 
 const Text = styled.span`
   /* Task 01 */
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -133,7 +133,7 @@ const DateStyle = styled.span`
   width: 65px;
   height: 18px;
 
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

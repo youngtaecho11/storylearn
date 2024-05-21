@@ -1,7 +1,18 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {useCallback, useRef} from 'react';
 import { HamburgerIcon } from '@chakra-ui/icons'
+import {
+    Drawer,
+    DrawerBody,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+    useDisclosure, Input, Button, Stack, StackDivider, Heading, Box, Text
+} from '@chakra-ui/react'
+import {getPageName} from "../utils/nameUtils.js";
 
 const currentDate = new Date();
 const options = {
@@ -11,29 +22,91 @@ const options = {
 const formattedDate = `${currentDate.toLocaleDateString('en-US', options)} (${currentDate.toLocaleDateString('en-US', { weekday: 'short' })})`;
 
 const Header = () => {
-    const navigate = useNavigate();
 
-    const onClick = useCallback(() => {
-        navigate('/');
-    }, [navigate]);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const btnRef = useRef();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const onClickSignup = useCallback(() => {
         navigate('/signup');
     }, [navigate]);
 
     return (
-        <Wrapper>
-            <LeftBox onClick={onClick}>
-                <HamburgerIcon boxSize={30} color='#FFFFFF'/>
-                <TitleStyle>Story Learn</TitleStyle>
-            </LeftBox>
-            <RightBox>
-                <DateStyle>{formattedDate}</DateStyle>
-                <BtnStyle>
-                    <SignUpStyle onClick={onClickSignup}>Sign up</SignUpStyle>
-                </BtnStyle>
-            </RightBox>
-        </Wrapper>
+        <>
+            <Wrapper>
+                <LeftBox onClick={onOpen}>
+                <HamburgerIcon boxSize={30} color='#FFFFFF' ref={btnRef} />
+                    <RightBox>Dashboard</RightBox>
+                </LeftBox>
+                <TitleStyle>
+                    {getPageName(location?.pathname)}
+                </TitleStyle>
+                <RightBox>SDS AI HACK 2024</RightBox>
+            </Wrapper>
+            <Drawer
+                isOpen={isOpen}
+                placement='left'
+                onClose={onClose}
+                finalFocusRef={btnRef}
+            >
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>
+                        <DrawerTitle>
+                            {sessionStorage.getItem('name')}님, 환영해요 !
+                        </DrawerTitle>
+                    </DrawerHeader>
+                    <DrawerBody>
+                        <Stack divider={<StackDivider />} spacing='4'
+                               style={{'cursor': 'pointer'}}
+                        >
+                            <Box onClick={()=>navigate('/')}>
+                                <Heading size='xs' textTransform='uppercase'>
+                                    문제 만들기
+                                </Heading>
+                                <Text pt='2' fontSize='sm'>
+                                    View a summary of all your clients over the last month.
+                                </Text>
+                            </Box>
+                            <Box onClick={()=>navigate('/')}>
+                                <Heading size='xs' textTransform='uppercase'>
+                                    문제집 만들기
+                                </Heading>
+                                <Text pt='2' fontSize='sm'>
+                                    Check out the overview of your clients.
+                                </Text>
+                            </Box>
+                            <Box onClick={()=>navigate('/solving')}>
+                                <Heading size='xs' textTransform='uppercase'>
+                                    문제 풀기
+                                </Heading>
+                                <Text pt='2' fontSize='sm'>
+                                    See a detailed analysis of all your business clients.
+                                </Text>
+                            </Box>
+                            <Box onClick={()=>navigate('/qna')}>
+                                <Heading size='xs' textTransform='uppercase'>
+                                    질문하고 답변받기
+                                </Heading>
+                                <Text pt='2' fontSize='sm'>
+                                    See a detailed analysis of all your business clients.
+                                </Text>
+                            </Box>
+                        </Stack>
+                    </DrawerBody>
+                    <DrawerFooter>
+                        <BtnStyle2>
+                            <LogoutStyle onClick={()=>{}}>로그아웃</LogoutStyle>
+                        </BtnStyle2>
+                        <BtnStyle>
+                            <SignUpStyle onClick={onClickSignup}>회원 가입</SignUpStyle>
+                        </BtnStyle>
+                    </DrawerFooter>
+                </DrawerContent>
+            </Drawer>
+        </>
     );
 };
 
@@ -48,7 +121,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 9px 16px;
-  gap: 530px;
+  gap: 10px;
 
   position: fixed;
   width: 100%;
@@ -71,27 +144,29 @@ const RightBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-right: 30px;
   gap: 16px;
+  
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 28px;
 `;
 
 const TitleStyle = styled.div`
   /* Title */
-
   height: 28px;
 
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
   line-height: 28px;
 
   color: #ffffff;
-
-  /* Inside auto layout */
-  flex: none;
-  order: 1;
-  flex-grow: 0;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 `;
 
 const DateStyle = styled.div`
@@ -99,7 +174,7 @@ const DateStyle = styled.div`
 
   height: 19px;
 
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -125,25 +200,39 @@ const BtnStyle = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 6px 12px;
-  gap: 10px;
+  margin-right: 5px;
 
   height: 28px;
 
-  border: 1px solid #ffffff;
+  border: 1px solid #8A0886;
   border-radius: 4px;
-
-  /* Inside auto layout */
-  flex: none;
-  order: 1;
-  flex-grow: 0;
 `;
+
+const BtnStyle2 = styled.div`
+  /* Frame 202698 */
+
+  box-sizing: border-box;
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 6px 12px;
+  margin-right: 5px;
+
+  height: 28px;
+
+  border: 1px solid #0404B4;
+  border-radius: 4px;
+`;
+
 
 const SignUpStyle = styled.div`
   /* Sign up */
 
   height: 16px;
 
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -152,7 +241,7 @@ const SignUpStyle = styled.div`
   display: flex;
   align-items: center;
 
-  color: #ffffff;
+  color: #8A0886;
 
   /* Inside auto layout */
   flex: none;
@@ -160,4 +249,34 @@ const SignUpStyle = styled.div`
   flex-grow: 0;
 
   cursor: pointer;
+`;
+
+const LogoutStyle = styled.div`
+  /* Sign up */
+
+  height: 16px;
+
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  display: flex;
+  align-items: center;
+
+  color: #0404B4;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+
+  cursor: pointer;
+`;
+
+const DrawerTitle = styled.div`
+    display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;

@@ -51,16 +51,16 @@ const Signup = () => {
   return (
     <Container>
       <HorizontalGap gap={'108px'} />
-      <TitleStyle>Sign up</TitleStyle>
+      <TitleStyle>회원 가입</TitleStyle>
       <HorizontalGap gap={'32px'} />
       <ColumnStyle>E-mail</ColumnStyle>
-        <Editable defaultValue='Take some chakra'>
+        <Editable defaultValue='이메일 입력해주세요.'>
             <EditablePreview />
             <EditableInput />
         </Editable>
       <HorizontalGap gap={'10px'} />
       <ColumnStyle>User Name</ColumnStyle>
-        <Editable defaultValue='Take some chakra'>
+        <Editable defaultValue='이름을 입력해주세요.'>
             <EditablePreview />
             <EditableInput />
         </Editable>
@@ -92,7 +92,7 @@ const Container = styled.div`
 const TitleStyle = styled.div`
   /* Title */
 
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
@@ -106,7 +106,7 @@ const TitleStyle = styled.div`
 const ColumnStyle = styled.div`
   /* User Name */
 
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -139,7 +139,7 @@ const CancelButton = styled.div`
   cursor: pointer;
 
   /* Cancle */
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -160,7 +160,7 @@ const ConfirmButton = styled.div`
   cursor: pointer;
 
   /* Confirm */
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import HorizontalGap from '../../components/HorizontalGap.jsx';
+import logo from '@/logo.png';
 import {
   Editable,
   EditableInput,
@@ -43,6 +44,7 @@ const Home = () => {
   const [selectedPlotFile, setSelectedPlotFile] = useState(null);
   const [selectedContentsFile, setSelectedContentsFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [quizs, setQuizs] = useState([]);
 
   const handleChange = useCallback(value => {
     setContents(value);
@@ -108,6 +110,8 @@ const Home = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      setQuizs([...response.data]);
     } catch (error) {
       alert('Upload failed with error: ' + error.message);
     } finally {
@@ -121,7 +125,7 @@ const Home = () => {
       <Container>
         <HorizontalGap gap={'20px'}/>
         <TabWrapper>
-          <Tabs isFitted variant='enclosed' width={'45%'}>
+          <Tabs isFitted variant='enclosed' width={'35%'}>
             <Heading as='h3' size='lg'>
               세계관
             </Heading>
@@ -142,7 +146,10 @@ const Home = () => {
               </TabPanel>
             </TabPanels>
           </Tabs>
-          <Tabs isFitted variant='enclosed' width={'45%'} >
+          <IconWrapper>
+            <img src={logo} alt="logo"/>
+          </IconWrapper>
+          <Tabs isFitted variant='enclosed' width={'35%'} >
             <Heading as='h3' size='lg'>
               교육 자료
             </Heading>
@@ -156,10 +163,12 @@ const Home = () => {
                 <FileUpload selectedFile={selectedContentsFile} setSelectedFile={setSelectedContentsFile}/>
               </TabPanel>
               <TabPanel>
-                <Editable defaultValue={'텍스트 입력'}>
-                  <EditablePreview />
-                  <EditableTextarea/>
-                </Editable>
+                <TextAreaStyle>
+                  <Editable defaultValue={'텍스트 입력'}>
+                    <EditablePreview />
+                    <EditableTextarea/>
+                  </Editable>
+                </TextAreaStyle>
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -177,12 +186,7 @@ const Home = () => {
         </Button>
       </Container>
 
-      <HomeBottom
-        tasks={tasks}
-        fetchTasks={fetchTasks}
-        handleChangeDropdown={handleChangeDropdown}
-        memberId={memberId}
-      />
+      <HomeBottom quizs={quizs}/>
     </>
   );
 };
@@ -199,7 +203,7 @@ const Container = styled.div`
 const MessageStyle = styled.div`
   /* Title */
 
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -212,7 +216,7 @@ const MessageStyle = styled.div`
 const Wrapper = styled.div`
   /* Title */
 
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
@@ -227,4 +231,19 @@ const TabWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
+`;
+
+
+const IconWrapper = styled.div`
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const TextAreaStyle = styled.div`
+  border: 1px solid #8A0886;
+  border-radius: 4px;
+  padding: 4px;
+  min-height: 65px;
 `;
