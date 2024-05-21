@@ -65,7 +65,7 @@ const Solving = () => {
                                     'flexDirection':'row',
                                     'justifyContent':'flex-end',
                                 }}>
-                                    {item?.quiz_id_list?.length} 문제
+                                    {item?.quiz_id_list?.split(',')?.length} 문제
                                 </Text>
                                 <HorizontalGap gap={'10px'}/>
                                 <Text style={{

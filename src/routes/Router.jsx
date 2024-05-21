@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import Signup from '../pages/Signup.jsx';
 import Solving from "../pages/Solving.jsx";
 import Quiz from "../pages/Quiz.jsx";
+import Qna from "../pages/Qna.jsx";
+import Report from "../pages/Report.jsx";
 
 const Router = () => {
     return (
@@ -17,6 +19,8 @@ const Router = () => {
                     <Route exact path="/" element={sessionStorage ? <Home /> : <Navigate replace to="/login" />} />
                     <Route path="/solving" element={<Solving />} />
                     <Route path="/quiz" element={<Quiz />} />
+                    <Route path="/qna" element={<Qna />} />
+                    <Route path="/report" element={<Report />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="*" element={<Error />} />

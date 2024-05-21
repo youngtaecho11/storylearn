@@ -78,17 +78,16 @@ const Home = () => {
   );
 
   const countNotDoneTask = useMemo(() => tasks.filter(task => !task?.isDone).length, [tasks]);
-  //
-  // useEffect(() => {
-  //   (() => {
-  //     const name = sessionStorage.getItem('name');
-  //     if (!name) {
-  //       navigate('/login');
-  //     }
-  //     setUserName(name);
-  //     setMemberId(sessionStorage.getItem('id'));
-  //   })();
-  // }, [navigate]);
+
+  useEffect(() => {
+    (() => {
+      const name = sessionStorage.getItem('name');
+      if (!name) {
+        navigate('/login');
+      }
+      setUserName(name);
+    })();
+  }, [navigate]);
 
   const handleCreateQuiz = async ()=>{
     if (!selectedPlotFile) {

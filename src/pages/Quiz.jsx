@@ -1,4 +1,4 @@
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useMemo, useState} from "react";
 import {defaultQuizs} from "../const/const.js";
 import styled from "styled-components";
@@ -8,14 +8,24 @@ import HorizontalGap from "../components/HorizontalGap.jsx";
 import useTimer from "../hooks/useTimer.js";
 import axios from "axios";
 
+const checkCorrectness = (realAnswer, studentAnswer) => {
+    if(realAnswer === studentAnswer){
+        return 'Y'
+    } else if(realAnswer !== studentAnswer){
+        return 'N'
+    }
+}
+
 const Quiz = () => {
     const [quizs, setQuizs] = useState(defaultQuizs);
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+    const [isFinished, setIsFinished] = useState(false);
 
     const { state } = useLocation();
     const { id } = state || '';
     const { timeArray, resetTimer } = useTimer();
     const [answerArray, setAnswerArray] = useState([]);
+    const navigate =useNavigate();
 
     const contentsTotal = useMemo(()=> getABCDE(quizs[currentQuizIndex]?.problem)
         ,[quizs, currentQuizIndex]);
@@ -23,7 +33,15 @@ const Quiz = () => {
     const handleClickAnswer = (answer) => {
         setAnswerArray(prev=>[...prev, answer]);
         resetTimer();
-        setCurrentQuizIndex(prev => prev+1);
+        setCurrentQuizIndex(prev => {
+            if(prev+1 < quizs.length){
+                return prev+1;
+            }
+            else {
+                setIsFinished(true);
+                return prev;
+            }
+        });
     }
 
     useEffect(()=>{
@@ -42,12 +60,31 @@ const Quiz = () => {
         console.log(id);
     }, [id]);
 
-    useEffect(()=>{
-        if(!currentQuizIndex || currentQuizIndex !== quizs.length){
+    useEffect(() => {
+        if(!isFinished){
             return;
         }
-        console.log(currentQuizIndex);
-    }, [currentQuizIndex]);
+        (async ()=>{
+            try {
+                const logs = quizs.map((item, index)=>{
+                    return {
+                        'subject': item?.subject,
+                        'type': item?.type,
+                        'difficulty': item?.difficulty,
+                        'correctness': checkCorrectness(item?.answer, answerArray[index]),
+                        'timestamp': timeArray[index]
+                    }
+                })
+
+                const {data} = await axios.post('http://0.0.0.0:5501/api/v1/quiz/solve', {log_list: logs});
+                console.log(data);
+                navigate('/report');
+
+            } catch (error) {
+                alert('Get Data from log failed with error: ' + error.message);
+            }
+        })();
+    },[isFinished, quizs]);
 
     return (
         <QuizContainer>
