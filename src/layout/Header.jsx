@@ -128,6 +128,7 @@ const Wrapper = styled.div`
   height: 48px;
   left: 0;
   top: 0;
+  z-index: 999;
 
   background: #8A0886;
 `;
