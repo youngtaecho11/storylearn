@@ -191,7 +191,7 @@ const Home = () => {
           조합해서 문제 만들기
         </Button>
       </Container>
-      {quizs?.length && <HomeBottom quizs={quizs}/>}
+      {quizs?.length> 0 && <HomeBottom quizs={quizs}/>}
     </>
   );
 };

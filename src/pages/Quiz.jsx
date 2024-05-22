@@ -116,23 +116,28 @@ const Quiz = () => {
             <Flex flex={1}/>
             <HorizontalGap gap={'50px'}/>
             <ButtonWrapper
-                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'A'}
+                isBlue={isChecking === 'N' && quizs[currentQuizIndex]?.answer === 'A'}
+                isRealBlue={isChecking === 'Y' && quizs[currentQuizIndex]?.answer === 'A'}
                 isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'A'}
                 onClick={()=>handleClickAnswer(currentQuizIndex, 'A')}>{contentsTotal?.contentsA}</ButtonWrapper>
             <ButtonWrapper
-                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'B'}
+                isBlue={isChecking === 'N' && quizs[currentQuizIndex]?.answer === 'B'}
+                isRealBlue={isChecking === 'Y' && quizs[currentQuizIndex]?.answer === 'B'}
                 isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'B'}
                 onClick={()=>handleClickAnswer(currentQuizIndex, 'B')}>{contentsTotal?.contentsB}</ButtonWrapper>
             <ButtonWrapper
-                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'C'}
+                isBlue={isChecking === 'N' && quizs[currentQuizIndex]?.answer === 'C'}
+                isRealBlue={isChecking === 'Y' && quizs[currentQuizIndex]?.answer === 'C'}
                 isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'C'}
                 onClick={()=>handleClickAnswer(currentQuizIndex, 'C')}>{contentsTotal?.contentsC}</ButtonWrapper>
             <ButtonWrapper
                 onClick={()=>handleClickAnswer(currentQuizIndex, 'D')}
-                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'D'}
+                isBlue={isChecking === 'N' && quizs[currentQuizIndex]?.answer === 'D'}
+                isRealBlue={isChecking === 'Y' && quizs[currentQuizIndex]?.answer === 'D'}
                 isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'D'}>{contentsTotal?.contentsD}</ButtonWrapper>
             <ButtonWrapper
-                isGreen={isChecking !== 'Unknown' && quizs[currentQuizIndex]?.answer === 'E'}
+                isBlue={isChecking === 'N' && quizs[currentQuizIndex]?.answer === 'E'}
+                isRealBlue={isChecking === 'Y' && quizs[currentQuizIndex]?.answer === 'E'}
                 isRed={isChecking === 'N' && answerArray[currentQuizIndex] === 'E'}
                 onClick={()=>handleClickAnswer(currentQuizIndex, 'E')}>{contentsTotal?.contentsE}</ButtonWrapper>
         </QuizContainer>
@@ -168,14 +173,22 @@ const ButtonWrapper = styled.button`
   
   border: 2px solid #D8D8D8;
   border-radius: 20px;
-  background-color: ${({ isGreen, isRed }) => {
-    if (isGreen) return '#2ECC71';
-    if (isRed) return '#F93910';
+  background-color: ${({ isBlue, isRealBlue, isRed }) => {
+    if (isBlue) return '#E3F6FE';
+    if (isRealBlue) return '#1285F8';
+    if (isRed) return '#FFDFDE';
     return 'white';
   }};
-  color: ${({ isGreen, isRed }) => {
-    if (isGreen) return 'white';
-    if (isRed) return 'white';
+  color: ${({ isBlue, isRealBlue, isRed }) => {
+    if (isBlue) return 'blue';
+    if (isRealBlue) return 'white';
+    if (isRed) return 'red';
     return 'black';
+  }};
+  border-color: ${({ isBlue, isRealBlue, isRed }) => {
+    if (isBlue) return 'blue';
+    if (isRealBlue) return 'white';
+    if (isRed) return 'red';
+    return '#D8D8D';
   }};
 `;
