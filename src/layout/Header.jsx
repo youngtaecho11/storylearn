@@ -64,34 +64,34 @@ const Header = () => {
                                style={{'cursor': 'pointer'}}
                         >
                             <Box onClick={()=>navigate('/')}>
-                                <Heading size='xs' textTransform='uppercase'>
+                                <Heading size='md' textTransform='uppercase'>
                                     문제/문제집 만들기
                                 </Heading>
-                                <Text pt='2' fontSize='sm'>
+                                <Text pt='2' fontSize='md'>
                                     사용자 주문형 문제를 만들고 묶어서 문제집을 만들 수 있습니다.
                                 </Text>
                             </Box>
                             <Box onClick={()=>navigate('/solving')}>
-                                <Heading size='xs' textTransform='uppercase'>
+                                <Heading size='md' textTransform='uppercase'>
                                     문제 풀기
                                 </Heading>
-                                <Text pt='2' fontSize='sm'>
+                                <Text pt='2' fontSize='md'>
                                     사용자가 만들어놓은 문제집을 풀어볼 수 있습니다.
                                 </Text>
                             </Box>
                             <Box onClick={()=>navigate('/report')}>
-                                <Heading size='xs' textTransform='uppercase'>
+                                <Heading size='md' textTransform='uppercase'>
                                     경향 분석
                                 </Heading>
-                                <Text pt='2' fontSize='sm'>
+                                <Text pt='2' fontSize='md'>
                                     사용자의 풀이 로그를 바탕으로 분석 리포트를 보여줍니다.
                                 </Text>
                             </Box>
                             <Box onClick={()=>navigate('/qna')}>
-                                <Heading size='xs' textTransform='uppercase'>
+                                <Heading size='md' textTransform='uppercase'>
                                     질문하고 답변받기
                                 </Heading>
-                                <Text pt='2' fontSize='sm'>
+                                <Text pt='2' fontSize='md'>
                                     사용자가 주문했던 데이터를 기반으로 AI 질의응답을 할 수 있습니다.
                                 </Text>
                             </Box>
