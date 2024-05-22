@@ -182,9 +182,10 @@ const Home = () => {
             colorScheme='pink'
             variant='outline'
             spinnerPlacement='end'
+            height={'50px'}
             onClick={handleCreateQuiz}
         >
-          문제 만들기
+          조합해서 문제 만들기
         </Button>
       </Container>
       {quizs?.length && <HomeBottom quizs={quizs}/>}

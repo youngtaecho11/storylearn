@@ -231,6 +231,7 @@ const HomeBottom = ({ quizs }) => {
                   onClick={handleCreateQuizSet}
                   bg={'white'}
                   width={'100%'}
+                  height={'50px'}
               >
                   문제 및 문제집으로 저장하기
               </Button>
