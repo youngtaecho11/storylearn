@@ -70,7 +70,7 @@ const Header = () => {
                         >
                             <Box onClick={()=>navigate('/')}>
                                 <Heading size='md' textTransform='uppercase'>
-                                    문제/문제집 만들기
+                                    문제 및 문제집 만들기
                                 </Heading>
                                 <Text pt='2' fontSize='md'>
                                     사용자 주문형 문제를 만들고 묶어서 문제집을 만들 수 있습니다.
