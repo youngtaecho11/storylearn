@@ -39,7 +39,7 @@ const Header = () => {
             <Wrapper>
                 <LeftBox onClick={onOpen}>
                 <HamburgerIcon boxSize={30} color='#FFFFFF' ref={btnRef} />
-                    <RightBox>Dashboard</RightBox>
+                    <RightBox>DASHBOARD</RightBox>
                 </LeftBox>
                 <TitleStyle>
                     {getPageName(location?.pathname)}
@@ -145,6 +145,13 @@ const LeftBox = styled.div`
   align-items: center;
   gap: 12px;
   cursor: pointer;
+
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 28px;
+
 `;
 
 const RightBox = styled.div`
@@ -155,7 +162,7 @@ const RightBox = styled.div`
   
   color: #ffffff;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 15px;
   line-height: 28px;
 `;

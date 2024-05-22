@@ -6,6 +6,7 @@ import {
   EditableInput,
   EditableTextarea,
   EditablePreview, TabIndicator,
+  Flex
 } from '@chakra-ui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import HomeBottom from './HomeBottom.jsx';
@@ -27,6 +28,7 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios';
 import {defaultQuizs} from "../../const/const.js";
+import {EditIcon} from "@chakra-ui/icons";
 
 const Home = () => {
   const [userName, setUserName] = useState('');
@@ -133,8 +135,14 @@ const Home = () => {
                 <FileUpload selectedFile={selectedPlotFile} setSelectedFile={setSelectedPlotFile}/>
               </TabPanel>
               <TabPanel>
-                <Editable defaultValue={'텍스트 입력'}>
-                  <EditablePreview />
+                <Editable defaultValue={
+                  <Flex flexDir={'row'} alignItems={'center'}>
+                    <EditIcon/>
+                    <VerticalGap gap={'5px'}/>
+                    글을 써주세요.
+                  </Flex>
+                }>
+                  <EditablePreview/>
                   <EditableTextarea/>
                 </Editable>
               </TabPanel>
@@ -157,12 +165,15 @@ const Home = () => {
                 <FileUpload selectedFile={selectedContentsFile} setSelectedFile={setSelectedContentsFile}/>
               </TabPanel>
               <TabPanel>
-                <TextAreaStyle>
-                  <Editable defaultValue={'텍스트 입력'}>
+                  <Editable defaultValue={
+                    <Flex flexDir={'row'} alignItems={'center'}>
+                    <EditIcon/>
+                    <VerticalGap gap={'5px'}/>
+                    글을 써주세요.
+                  </Flex>}>
                     <EditablePreview />
                     <EditableTextarea/>
                   </Editable>
-                </TextAreaStyle>
               </TabPanel>
             </TabPanels>
           </Tabs>
