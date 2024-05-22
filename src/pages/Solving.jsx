@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Button, Card, CardBody, CardFooter, CardHeader, Heading, SimpleGrid, Text} from "@chakra-ui/react";
+import {Button, Card, CardBody, CardFooter, CardHeader, Heading, SimpleGrid, Text, useToast} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import {defaultQuizSet} from "../const/const.js";
 import HorizontalGap from "../components/HorizontalGap.jsx";
@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 const Solving = () => {
     const [quizSetList, setQuizSetList] = useState(defaultQuizSet);
     const navigate = useNavigate();
+    const toast = useToast();
 
     const handleClick = (id) => {
         navigate('/quiz', {state: {id} });
@@ -22,7 +23,13 @@ const Solving = () => {
                 console.log(data);
                 setQuizSetList([...data]);
             } catch (error) {
-                alert('Get Quiz Set failed with error: ' + error.message);
+                await toast({
+                    title: '실패',
+                    description: error.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                });
             }
         })();
     },[]);

@@ -1,6 +1,16 @@
 import {useEffect, useMemo, useState} from "react";
 import styled from "styled-components";
-import {Box, Text, Progress, Flex, EditableTextarea, EditablePreview, Editable, Button} from "@chakra-ui/react";
+import {
+    Box,
+    Text,
+    Progress,
+    Flex,
+    EditableTextarea,
+    EditablePreview,
+    Editable,
+    Button,
+    useToast
+} from "@chakra-ui/react";
 import axios from "axios"
 import logo from '@/logo.png';
 import HorizontalGap from "../components/HorizontalGap.jsx";
@@ -12,16 +22,29 @@ const Qna = () => {
     const [answer , setAnswer] = useState("")
     const [isLoading, setIsLoading] = useState(false);
 
+    const toast=useToast();
+
 
     const handleClickAsk = async () => {
         try {
             setIsLoading(true);
             const {data} = await axios.post('http://0.0.0.0:5501/api/v1/question', {query: query});
             setAnswer(data)
+            await toast({
+                title: '성공',
+                description: "답글이 달렸어요 !",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            });
         } catch (error) {
-            alert('Asking failed with error: ' + error.message);
-            setAnswer('도수분포표는 데이터를 특정한 구간으로 나누어 각 구간에 속하는 데이터의 빈도를 나타낸 표입니다. 이를 통해 데이터의 분포를 시각적으로 쉽게 파악할 수 있습니다. 주로 통계학에서 사용되며, \n' +
-                '히스토그램과 같은 그래프 형태로도 표현될 수 있습니다.\n');
+            await toast({
+                title: '실패',
+                description: error.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
         } finally {
             setIsLoading(false);
         }

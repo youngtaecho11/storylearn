@@ -2,7 +2,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useMemo, useState} from "react";
 import {defaultQuizs} from "../const/const.js";
 import styled from "styled-components";
-import {Box, Text, Progress, Flex} from "@chakra-ui/react";
+import {Box, Text, Progress, Flex, useToast} from "@chakra-ui/react";
 import {getABCDE} from "../utils/nameUtils.js";
 import HorizontalGap from "../components/HorizontalGap.jsx";
 import useTimer from "../hooks/useTimer.js";
@@ -30,6 +30,7 @@ const Quiz = () => {
     const [answerArray, setAnswerArray] = useState([]);
     const [correctnessArray, setCorrectnessArray] = useState([]);
     const navigate =useNavigate();
+    const toast=useToast();
 
     const contentsTotal = useMemo(()=> getABCDE(quizs[currentQuizIndex]?.problem)
         ,[quizs, currentQuizIndex]);
@@ -65,7 +66,13 @@ const Quiz = () => {
                 console.log(data);
                 setQuizs([...data]);
             } catch (error) {
-                alert('Get Quizs failed with error: ' + error.message);
+                await toast({
+                    title: '실패',
+                    description: error.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                });
             }
         })();
         console.log(id);

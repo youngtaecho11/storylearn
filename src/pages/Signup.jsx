@@ -5,13 +5,12 @@ import { checkEmail, createMember } from '../services/members.js';
 import VerticalGap from '../components/VerticalGap.jsx';
 import { useNavigate } from 'react-router-dom';
 import { checkContainSpecialCharacters, validateEmail } from '../utils/regexUtils.js';
-import {Editable, EditableInput, EditablePreview, useToast} from '@chakra-ui/react'
+import {Editable, EditableInput, EditablePreview} from '@chakra-ui/react'
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [isDuplicated, setIsDuplicated] = useState('');
   const navigate = useNavigate();
-  const { fireToast } = useToast();
 
   const handleChangeEmail = useCallback(value => {
     setEmail(value);
@@ -44,7 +43,6 @@ const Signup = () => {
       return;
     }
     await createMember({ email: email, userName: userName });
-    fireToast({ content: 'Registered successfully.' });
     navigate('/login');
   }, [disabledConfirm, email, userName, fireToast, navigate]);
 

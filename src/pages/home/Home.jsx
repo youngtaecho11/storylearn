@@ -11,7 +11,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import HomeBottom from './HomeBottom.jsx';
 import { sortByRule } from '../../utils/orderUtils.js';
 import { getGreetingMessage } from '../../utils/dateUtils.js';
-import { useToast } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
 import { getTasksByMemberId, postTaskWithMemberId } from '../../services/members.js';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
@@ -24,14 +23,10 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  useToast
 } from '@chakra-ui/react'
-import CustomAlert from "../../components/CustomAlert.jsx";
 import axios from 'axios';
 import {defaultQuizs} from "../../const/const.js";
-
-
-
-const greetingMessage = getGreetingMessage();
 
 const Home = () => {
   const [userName, setUserName] = useState('');
@@ -51,34 +46,6 @@ const Home = () => {
     setContents(value);
   }, []);
 
-  const fetchTasks = useCallback(async () => {
-    if (!memberId) {
-      return;
-    }
-    const response = await getTasksByMemberId(memberId);
-    const sortedTasks = sortByRule(response?.data ?? [], order);
-
-    setTasks([...sortedTasks]);
-  }, [memberId, order]);
-
-  const handleConfirm = useCallback(async () => {
-    await postTaskWithMemberId(memberId, contents);
-    await fetchTasks();
-    setContents('');
-  }, [memberId, contents, fetchTasks]);
-
-  const handleChangeDropdown = useCallback(
-    value => {
-      const sorted = sortByRule(tasks, value);
-
-      setOrder(value);
-      setTasks([...sorted]);
-    },
-    [tasks],
-  );
-
-  const countNotDoneTask = useMemo(() => tasks.filter(task => !task?.isDone).length, [tasks]);
-
   useEffect(() => {
     (() => {
       const name = sessionStorage.getItem('name');
@@ -90,12 +57,25 @@ const Home = () => {
   }, [navigate]);
 
   const handleCreateQuiz = async ()=>{
+
     if (!selectedPlotFile) {
-      alert('세계관 PDF가 없어요.');
+      await toast({
+        title: '실패',
+        description: '세계관 PDF가 없어요.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
     if (!selectedContentsFile) {
-      alert('교육자료 PDF가 없어요.');
+      await toast({
+        title: '실패',
+        description: '교육자료 PDF가 없어요.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
 
@@ -110,12 +90,24 @@ const Home = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
       setQuizs([...data]);
+
+      await toast({
+        title: '성공',
+        description: "문제가 생성 완료되었어요 !",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
-      alert('Upload failed with error: ' + error.message);
+      await toast({
+        title: '실패',
+        description: error.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
       setQuizs(defaultQuizs);
-      //navigate('/error');
     } finally {
       setIsLoading(false);
     }

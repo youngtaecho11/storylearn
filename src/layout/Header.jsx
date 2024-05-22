@@ -10,9 +10,10 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    useDisclosure, Input, Button, Stack, StackDivider, Heading, Box, Text
+    useDisclosure, Input, Button, Stack, StackDivider, Heading, Box, Text, Avatar, Flex
 } from '@chakra-ui/react'
 import {getPageName} from "../utils/nameUtils.js";
+import VerticalGap from "../components/VerticalGap.jsx";
 
 const currentDate = new Date();
 const options = {
@@ -56,7 +57,11 @@ const Header = () => {
                     <DrawerCloseButton />
                     <DrawerHeader>
                         <DrawerTitle>
-                            {sessionStorage.getItem('name') ?? 'Karli'}님, 환영해요 !
+                            <Flex flexDir={"row"} alignItems={"center"}>
+                                <Avatar name={sessionStorage?.getItem('name')?? 'Karli'} src='https://bit.ly/broken-link' />
+                                <VerticalGap gap={'20px'}/>
+                                {sessionStorage?.getItem('name') ?? 'Karli'}님, 환영해요 !
+                            </Flex>
                         </DrawerTitle>
                     </DrawerHeader>
                     <DrawerBody>

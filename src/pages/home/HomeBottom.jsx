@@ -1,14 +1,6 @@
 import styled from 'styled-components';
-import ArrowUpIcon from '@/ic_arrow_up.svg?react';
-import ArrowDownIcon from '@/ic_arrow_down.svg?react';
-import {useCallback, useEffect, useRef, useState} from 'react';
-import { deleteTask, patchTask } from '../../services/tasks.js';
-import TaskItem from '../../components/TaskItem.jsx';
-import { toLocaleDate } from '../../utils/dateUtils.js';
+import {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
-import '../../../public/fonts/dropdown.css';
 import {
     Box,
     Button,
@@ -17,10 +9,8 @@ import {
     EditableTextarea,
     Flex,
     Heading,
-    IconButton,
-    useToast
+    IconButton, useToast,
 } from '@chakra-ui/react'
-import {defaultQuizs} from "../../const/const.js";
 import {
     Accordion,
     AccordionItem,
@@ -41,6 +31,7 @@ const HomeBottom = ({ quizs }) => {
     const [quizToRemove, setQuizToRemove] = useState([]);
 
     const navigate=useNavigate();
+    const toast=useToast();
 
     const handleCreateQuizSet = async () => {
 
@@ -73,11 +64,23 @@ const HomeBottom = ({ quizs }) => {
             setIsLoading(true);
             const response = await axios.post('http://0.0.0.0:5501/api/v1/quiz/complete', {quiz_list: arrayToSave});
             console.log(response);
-            alert("저장이 완료되었어요 !");
+            await toast({
+                title: '성공',
+                description: "문제와 문제집 모두 저장 완료되었어요 !",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            });
             navigate("/solving");
         } catch (error) {
-            alert('Upload failed with error: ' + error.message);
-            navigate('/error');
+            await toast({
+                title: '실패',
+                description: error.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            //navigate('/error');
         } finally {
             setIsLoading(false);
         }
