@@ -124,7 +124,7 @@ const HomeBottom = ({ quizs }) => {
                   <AccordionItem key={`accordion_item_${index}`} id={`accordion_item_${index}`} expanded>
                       <h2>
                           <AccordionButton bg='white' _expanded={{ bg: 'purple', color: 'white' }}>
-                              <Box as='span' flex='1' textAlign='left'>
+                              <Box as='span' flex='1' textAlign='left' style={{'textDecoration': quizToRemove.includes(index)? 'line-through' : 'none'}}>
                                   {index + 1}번 문제 - [{item?.subject}] - [{item?.type}] - [{item?.difficulty}]
                               </Box>
                               <AccordionIcon />
@@ -140,8 +140,8 @@ const HomeBottom = ({ quizs }) => {
                                           <Box>
                                               <Heading size='md'>
                                                   <Editable defaultValue={item?.problem} key={`card_problem_${index}`} id={`card_problem_${index}`}>
-                                                      <EditablePreview minWidth={'900px'}/>
-                                                      <EditableTextarea minWidth={'900px'} label={'problem'}/>
+                                                      <EditablePreview minWidth={'500px'}/>
+                                                      <EditableTextarea minWidth={'500px'} label={'problem'}/>
                                                   </Editable>
                                               </Heading>
                                           </Box>
@@ -152,16 +152,16 @@ const HomeBottom = ({ quizs }) => {
                                   <Text>
                                       답 :
                                       <Editable defaultValue={item?.answer} key={`card_answer_${index}`} id={`card_answer_${index}`}>
-                                          <EditablePreview minWidth={'900px'}/>
-                                          <EditableTextarea minWidth={'900px'} label={'answer'}/>
+                                          <EditablePreview minWidth={'500px'}/>
+                                          <EditableTextarea minWidth={'500px'} label={'answer'}/>
                                       </Editable>
                                   </Text>
                                   <HorizontalGap gap={'5px'}/>
                                   <Text>
                                       해설 :
                                       <Editable defaultValue={item?.explanation} key={`card_explanation_${index}`} id={`card_explanation_${index}`}>
-                                          <EditablePreview minWidth={'900px'}/>
-                                          <EditableTextarea minWidth={'900px'} label={'explanation'}/>
+                                          <EditablePreview minWidth={'500px'}/>
+                                          <EditableTextarea minWidth={'500px'} label={'explanation'}/>
                                       </Editable>
                                   </Text>
                               </CardBody>

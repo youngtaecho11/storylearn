@@ -75,8 +75,11 @@ const FileUpload = ({selectedFile, setSelectedFile}) => {
                     padding: '20px',
                     borderRadius: '5px',
                     textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
                     cursor: 'pointer',
-                    minHeight: '65px',
+                    minHeight: '200px',
                 }}
             >
                 <input

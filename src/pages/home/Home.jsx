@@ -115,7 +115,7 @@ const Home = () => {
     } catch (error) {
       alert('Upload failed with error: ' + error.message);
       setQuizs(defaultQuizs);
-      navigate('/error');
+      //navigate('/error');
     } finally {
       setIsLoading(false);
     }
