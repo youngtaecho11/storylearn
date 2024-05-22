@@ -90,7 +90,7 @@ const Quiz = () => {
                         'type': item?.type,
                         'difficulty': item?.difficulty,
                         'correctness': correctnessArray[index],
-                        'timestamp': timeArray[index]
+                        'timestamp': timeArray[index].toString()
                     }
                 })
 
