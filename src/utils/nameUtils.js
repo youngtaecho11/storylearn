@@ -1,13 +1,17 @@
 export const getPageName = (pathname) => {
     let name;
     if(pathname === '/'){
-        name = '나만의 스토리로 문제 만들기'
+        name = '좋아하는 세계관으로 문제 만들기'
     } else if(pathname === '/login'){
         name = '로그인'
     } else if(pathname === '/signup'){
         name = '회원가입'
     } else if(pathname === '/solving'){
         name = '문제 풀어보기'
+    } else if(pathname === '/qna'){
+        name = 'Storylearn AI에게 물어보기'
+    } else if(pathname === '/report'){
+        name = '분석 리포트 보기'
     }
     return name;
 };

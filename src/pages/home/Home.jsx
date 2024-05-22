@@ -128,10 +128,10 @@ const Home = () => {
         <HorizontalGap gap={'20px'}/>
         <TabWrapper>
           <Tabs isFitted variant='enclosed' flex={1}>
-            <Heading as='h3' size='lg'>
+            <Heading as='h3' size='lg' textAlign={'center'}>
               세계관
             </Heading>
-            <HorizontalGap gap={'10px'}/>
+            <HorizontalGap gap={'20px'}/>
             <TabList>
               <Tab _selected={{ color: 'white', bg: '#8A0886' }}>PDF로 넣기</Tab>
               <Tab _selected={{ color: 'white', bg: '#8A0886' }}>텍스트로 넣기</Tab>
@@ -152,10 +152,10 @@ const Home = () => {
             <img src={logo} alt="logo"/>
           </IconWrapper>
           <Tabs isFitted variant='enclosed' flex={1}>
-            <Heading as='h3' size='lg'>
+            <Heading as='h3' size='lg' textAlign={'center'}>
               교육 자료
             </Heading>
-            <HorizontalGap gap={'10px'}/>
+            <HorizontalGap gap={'20px'}/>
             <TabList>
               <Tab _selected={{ color: 'white', bg: '#8A0886' }}>PDF로 넣기</Tab>
               <Tab _selected={{ color: 'white', bg: '#8A0886' }}>텍스트로 넣기</Tab>
