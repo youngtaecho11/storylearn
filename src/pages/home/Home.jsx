@@ -6,7 +6,7 @@ import {
   EditableInput,
   EditableTextarea,
   EditablePreview, TabIndicator,
-  Flex
+  Flex, useSteps
 } from '@chakra-ui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import HomeBottom from './HomeBottom.jsx';
@@ -29,13 +29,19 @@ import {
 import axios from 'axios';
 import {defaultQuizs} from "../../const/const.js";
 import {EditIcon} from "@chakra-ui/icons";
+import HomeStepper from "../../components/HomeStepper.jsx";
+
+const steps = [
+  { title: '세계관 자료', description: '를 넣어주세요.' },
+  { title: '교육내용 자료', description: '를 넣어주세요.' },
+  { title: '문제 만들기', description: '버튼을 눌러주세요.' },
+  { title: '문제 검토 후 저장하기', description: '버튼을 눌러주세요.' },
+]
 
 const Home = () => {
   const [userName, setUserName] = useState('');
   const [memberId, setMemberId] = useState('');
   const [contents, setContents] = useState('');
-  const [tasks, setTasks] = useState([]);
-  const [order, setOrder] = useState('Oldest');
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -43,6 +49,11 @@ const Home = () => {
   const [selectedContentsFile, setSelectedContentsFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [quizs, setQuizs] = useState([]);
+  const { activeStep, setActiveStep } = useSteps({
+    index: 0,
+    count: steps?.length,
+  })
+  // const [currentStep, setCurrentStep] = useState(0);
 
   const handleChange = useCallback(value => {
     setContents(value);
@@ -57,6 +68,24 @@ const Home = () => {
       setUserName(name);
     })();
   }, [navigate]);
+
+  useEffect(()=>{
+    if(quizs && quizs.length>0 && selectedContentsFile && selectedPlotFile){
+      console.log('생성 버튼 누름');
+      setActiveStep(3);
+      return;
+    }
+    if(selectedContentsFile && selectedPlotFile){
+      console.log('교육자료 넣음');
+      setActiveStep(2);
+      return;
+    }
+    if(selectedPlotFile){
+      console.log('세계관 넣음');
+      setActiveStep(1);
+      return;
+    }
+  }, [selectedPlotFile, selectedContentsFile, quizs]);
 
   const handleCreateQuiz = async ()=>{
 
@@ -119,7 +148,9 @@ const Home = () => {
   return (
     <>
       <Container>
-        <HorizontalGap gap={'20px'}/>
+        <HorizontalGap gap={'30px'}/>
+        <HomeStepper activeStep={activeStep}/>
+        <HorizontalGap gap={'50px'}/>
         <TabWrapper>
           <Tabs isFitted variant='enclosed' flex={1}>
             <Heading as='h3' size='lg' textAlign={'center'}>
@@ -153,7 +184,7 @@ const Home = () => {
           </IconWrapper>
           <Tabs isFitted variant='enclosed' flex={1}>
             <Heading as='h3' size='lg' textAlign={'center'}>
-              교육 자료
+              교육 내용
             </Heading>
             <HorizontalGap gap={'20px'}/>
             <TabList>
@@ -178,6 +209,7 @@ const Home = () => {
             </TabPanels>
           </Tabs>
         </TabWrapper>
+        <HorizontalGap gap={'20px'}/>
         <Button
             isLoading={isLoading}
             loadingText='생성 중'

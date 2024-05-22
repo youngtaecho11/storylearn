@@ -48,7 +48,7 @@ const Report = () => {
             {
                 isLoading &&
                 <>
-                    <HorizontalGap gap={'50px'}/>
+                    <HorizontalGap gap={'100px'}/>
                     <CircularProgress isIndeterminate color='#8A0886' size={'200px'} />
                 </>
             }
