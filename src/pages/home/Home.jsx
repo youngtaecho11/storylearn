@@ -3,29 +3,19 @@ import HorizontalGap from '../../components/HorizontalGap.jsx';
 import logo from '@/logo.png';
 import {
   Editable,
-  EditableInput,
   EditableTextarea,
-  EditablePreview, TabIndicator,
+  EditablePreview,
   Flex, useSteps
 } from '@chakra-ui/react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import HomeBottom from './HomeBottom.jsx';
-import { sortByRule } from '../../utils/orderUtils.js';
-import { getGreetingMessage } from '../../utils/dateUtils.js';
 import { useNavigate } from 'react-router-dom';
-import { getTasksByMemberId, postTaskWithMemberId } from '../../services/members.js';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import VerticalGap from "../../components/VerticalGap.jsx";
 import FileUpload from "../../components/FileUpload.jsx";
 import { Heading } from '@chakra-ui/react'
-import { Button, ButtonGroup } from '@chakra-ui/react'
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  useToast
-} from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 import axios from 'axios';
 import {defaultQuizs} from "../../const/const.js";
 import {EditIcon} from "@chakra-ui/icons";
@@ -83,7 +73,6 @@ const Home = () => {
     if(selectedPlotFile){
       console.log('세계관 넣음');
       setActiveStep(1);
-      return;
     }
   }, [selectedPlotFile, selectedContentsFile, quizs]);
 
@@ -237,33 +226,6 @@ const Container = styled.div`
   padding: 72px 60px;
 `;
 
-const MessageStyle = styled.div`
-  /* Title */
-
-  font-family: 'Helvetica';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 36px;
-  /* identical to box height, or 150% */
-
-  color: #2c3e50;
-`;
-
-const Wrapper = styled.div`
-  /* Title */
-
-  font-family: 'Helvetica';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 72px;
-  /* identical to box height, or 150% */
-
-  color: #2c3e50;
-  padding: 10px 0;
-`;
-
 const TabWrapper = styled.div`
   display: flex;
   width: 100%;
@@ -276,11 +238,4 @@ const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const TextAreaStyle = styled.div`
-  border: 1px solid #8A0886;
-  border-radius: 4px;
-  padding: 4px;
-  min-height: 65px;
 `;

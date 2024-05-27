@@ -10,17 +10,10 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    useDisclosure, Input, Button, Stack, StackDivider, Heading, Box, Text, Avatar, Flex
+    useDisclosure, Stack, StackDivider, Heading, Box, Text, Avatar, Flex
 } from '@chakra-ui/react'
 import {getPageName} from "../utils/nameUtils.js";
 import VerticalGap from "../components/VerticalGap.jsx";
-
-const currentDate = new Date();
-const options = {
-    month: 'numeric', // 월을 숫자 형식으로 표시 (예: 9)
-    day: 'numeric', // 일을 숫자 형식으로 표시 (예: 13)
-};
-const formattedDate = `${currentDate.toLocaleDateString('en-US', options)} (${currentDate.toLocaleDateString('en-US', { weekday: 'short' })})`;
 
 const Header = () => {
 

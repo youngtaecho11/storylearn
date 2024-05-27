@@ -1,9 +1,4 @@
-import {
-  Editable,
-  EditableInput,
-  EditableTextarea,
-  EditablePreview, Flex, Button, Input,
-} from '@chakra-ui/react'
+import { Flex, Button, Input,} from '@chakra-ui/react'
 import styled from 'styled-components';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,23 +7,15 @@ import HorizontalGap from "../components/HorizontalGap.jsx";
 import VerticalGap from "../components/VerticalGap.jsx";
 
 const Login = () => {
-  // const [email, setEmail] = useState();
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
   const handleChange = useCallback(event => {
-    // setEmail(value);
     setName(event.target.value);
   }, []);
 
   const handleConfirm = useCallback(async () => {
-    // if (validateEmail(email)) {
-    //   return;
-    // }
     try {
-      // const result = await getMemberByEmail(email);
-      // sessionStorage.setItem('id', result?.data?.id);
-      // sessionStorage.setItem('email', result?.data?.email);
       sessionStorage.setItem('name', name ?? 'Anonymous');
       navigate('/');
     } catch (error) {

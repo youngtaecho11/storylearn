@@ -2,7 +2,7 @@ import {useEffect, useMemo, useState} from "react";
 import styled from "styled-components";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {CircularProgress, Spinner, useToast} from "@chakra-ui/react";
+import {CircularProgress, useToast} from "@chakra-ui/react";
 import HorizontalGap from "../components/HorizontalGap.jsx";
 
 

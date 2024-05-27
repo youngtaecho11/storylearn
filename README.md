@@ -1,8 +1,9 @@
-# React + Vite
+# Storylearn Service Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+빠른 구현이 목적인 코드라서 코드의 질은 신경쓰지 않았습니다.
 
-Currently, two official plugins are available:
+많은 잔버그를 포함하고 있습니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- chakra-ui
+- etc

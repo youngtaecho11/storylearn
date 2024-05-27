@@ -1,10 +1,9 @@
-import ErrorImage from '@/illust_error.svg?react';
 import styled from 'styled-components';
 
 const Error = () => {
   return (
     <Container>
-      <ErrorImage />
+      Error
     </Container>
   );
 };

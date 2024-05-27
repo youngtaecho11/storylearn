@@ -9,7 +9,7 @@ import {
     EditableTextarea,
     Flex,
     Heading,
-    IconButton, useToast,
+    useToast,
 } from '@chakra-ui/react'
 import {
     Accordion,
@@ -265,33 +265,4 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-`;
-
-const DropdownWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  width: 100%;
-  height: 40px;
-  padding-bottom: 16px;
-`;
-
-const BtnStyle = styled.div`
-  /* Text btn */
-
-  /* Auto layout */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 12px 10px;
-
-  border-radius: 4px;
-`;
-
-const IconWrapper = styled.div`
-  min-height: 700px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;

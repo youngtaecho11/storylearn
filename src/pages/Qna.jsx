@@ -1,10 +1,7 @@
-import {useEffect, useMemo, useState} from "react";
+import {useState} from "react";
 import styled from "styled-components";
 import {
-    Box,
     Text,
-    Progress,
-    Flex,
     EditableTextarea,
     EditablePreview,
     Editable,

@@ -1,33 +1,15 @@
 import styled from 'styled-components';
 import HorizontalGap from '../components/HorizontalGap.jsx';
 import { useCallback, useMemo, useState } from 'react';
-import { checkEmail, createMember } from '../services/members.js';
 import VerticalGap from '../components/VerticalGap.jsx';
 import { useNavigate } from 'react-router-dom';
-import { checkContainSpecialCharacters, validateEmail } from '../utils/regexUtils.js';
+import { checkContainSpecialCharacters } from '../utils/regexUtils.js';
 import {Editable, EditableInput, EditablePreview} from '@chakra-ui/react'
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [isDuplicated, setIsDuplicated] = useState('');
   const navigate = useNavigate();
-
-  const handleChangeEmail = useCallback(value => {
-    setEmail(value);
-    setIsDuplicated('');
-  }, []);
-
-  const handleChangeUserName = useCallback(value => {
-    setUserName(value);
-  }, []);
-
-  const handleValidate = useCallback(async () => {
-    if (validateEmail(email)) {
-      return;
-    }
-    const result = await checkEmail(email);
-    setIsDuplicated(result.data.toString());
-  }, [email]);
 
   const handleCancel = useCallback(() => {
     navigate(-1);
@@ -42,9 +24,8 @@ const Signup = () => {
     if (disabledConfirm) {
       return;
     }
-    await createMember({ email: email, userName: userName });
     navigate('/login');
-  }, [disabledConfirm, email, userName, fireToast, navigate]);
+  }, [disabledConfirm, email, userName, navigate]);
 
   return (
     <Container>

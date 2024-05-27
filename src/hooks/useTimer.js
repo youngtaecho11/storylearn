@@ -16,7 +16,6 @@ const useTimer = () => {
     };
 
     const resetTimerAndInsert = () => {
-        console.log(time, 'time');
         setTime(0);
         setTimeArray(prevArray => [...prevArray, time]);
     };

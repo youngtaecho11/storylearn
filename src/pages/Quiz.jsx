@@ -2,15 +2,13 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useMemo, useState} from "react";
 import {defaultQuizs} from "../const/const.js";
 import styled from "styled-components";
-import {Box, Text, Progress, Flex, useToast} from "@chakra-ui/react";
+import {Box, Progress, Flex, useToast} from "@chakra-ui/react";
 import {getABCDE} from "../utils/nameUtils.js";
 import HorizontalGap from "../components/HorizontalGap.jsx";
 import useTimer from "../hooks/useTimer.js";
 import axios from "axios";
 
 const checkCorrectness = (realAnswer, studentAnswer) => {
-    console.log(realAnswer, 'realAnswer');
-    console.log(studentAnswer, 'studentAnswer');
     if(realAnswer === studentAnswer){
         return 'Y'
     } else if(realAnswer !== studentAnswer){
@@ -153,42 +151,42 @@ const QuizContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-  font-family: 'Helvetica';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 40px;
-  line-height: 90px;
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 90px;
 
 `;
 
 const ButtonWrapper = styled.button`
-  width: 900px;
-  height: 90px;
-  padding: 20px 0;
-  margin: 10px 0;
-  font-weight: 100;
-  font-size: 40px;
-  line-height: normal;
-  
-  
-  border: 2px solid #D8D8D8;
-  border-radius: 20px;
-  background-color: ${({ isBlue, isRealBlue, isRed }) => {
-    if (isBlue) return '#E3F6FE';
-    if (isRealBlue) return '#1285F8';
-    if (isRed) return '#FFDFDE';
-    return 'white';
-  }};
-  color: ${({ isBlue, isRealBlue, isRed }) => {
-    if (isBlue) return 'blue';
-    if (isRealBlue) return 'white';
-    if (isRed) return 'red';
-    return 'black';
-  }};
-  border-color: ${({ isBlue, isRealBlue, isRed }) => {
-    if (isBlue) return 'blue';
-    if (isRealBlue) return 'white';
-    if (isRed) return 'red';
-    return '#D8D8D';
-  }};
+    width: 900px;
+    height: 90px;
+    padding: 20px 0;
+    margin: 10px 0;
+    font-weight: 100;
+    font-size: 40px;
+    line-height: normal;
+    
+    
+    border: 2px solid #D8D8D8;
+    border-radius: 20px;
+    background-color: ${({ isBlue, isRealBlue, isRed }) => {
+        if (isBlue) return '#E3F6FE';
+        if (isRealBlue) return '#1285F8';
+        if (isRed) return '#FFDFDE';
+        return 'white';
+    }};
+    color: ${({ isBlue, isRealBlue, isRed }) => {
+        if (isBlue) return 'blue';
+        if (isRealBlue) return 'white';
+        if (isRed) return 'red';
+        return 'black';
+    }};
+    border-color: ${({ isBlue, isRealBlue, isRed }) => {
+        if (isBlue) return 'blue';
+        if (isRealBlue) return 'white';
+        if (isRed) return 'red';
+        return '#D8D8D';
+    }};
 `;
